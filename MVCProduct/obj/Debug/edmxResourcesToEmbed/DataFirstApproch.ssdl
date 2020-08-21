@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="AssignmentsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="CustomerTable">
+    <Key>
+      <PropertyRef Name="CustomerId" />
+    </Key>
+    <Property Name="CustomerId" Type="int" Nullable="false" />
+    <Property Name="CustomerName" Type="varchar" MaxLength="50" />
+    <Property Name="ProductId" Type="int" />
+  </EntityType>
+  <EntityType Name="ProductTable">
+    <Key>
+      <PropertyRef Name="ProductId" />
+    </Key>
+    <Property Name="ProductId" Type="int" Nullable="false" />
+    <Property Name="ProductName" Type="varchar" MaxLength="50" />
+    <Property Name="Rate" Type="int" />
+  </EntityType>
+  <Association Name="FK_CustomerTable_ProductTable">
+    <End Role="ProductTable" Type="Self.ProductTable" Multiplicity="0..1" />
+    <End Role="CustomerTable" Type="Self.CustomerTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductTable">
+        <PropertyRef Name="ProductId" />
+      </Principal>
+      <Dependent Role="CustomerTable">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="AssignmentsModelStoreContainer">
+    <EntitySet Name="CustomerTable" EntityType="Self.CustomerTable" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ProductTable" EntityType="Self.ProductTable" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_CustomerTable_ProductTable" Association="Self.FK_CustomerTable_ProductTable">
+      <End Role="ProductTable" EntitySet="ProductTable" />
+      <End Role="CustomerTable" EntitySet="CustomerTable" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
